@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Programa Edu Morán — Informe Operativo · Closer Search</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --void:#060606;
+    --void-soft:#0F0F0F;
+    --void-card:#131313;
+    --line:#242220;
+    --gold:#C9A84C;
+    --gold-soft:#C9A96E;
+    --gold-dim:#8E763A;
+    --ink:#EDE7D8;
+    --ink-dim:#B4AC98;
+    --ink-faint:#807A6C;
+    --radius:6px;
+    --maxw:880px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--void);
+    color:var(--ink);
+    font-family:'DM Sans',sans-serif;
+    font-size:16px;
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,h4{
+    font-family:'Cormorant Garamond',serif;
+    color:var(--ink);
+    margin:0 0 .35em 0;
+    line-height:1.15;
+    font-weight:600;
+  }
+  .cinzel{font-family:'Cinzel',serif;}
+  a{color:var(--gold);}
+
+  .shell{display:flex; min-height:100vh;}
+  nav.sidebar{
+    width:256px; flex:0 0 256px;
+    background:var(--void-soft);
+    border-right:1px solid var(--line);
+    color:#C9C3B4;
+    position:sticky; top:0; height:100vh;
+    overflow-y:auto;
+    padding:32px 22px 40px;
+  }
+  .brandmark{display:flex; align-items:center; gap:12px; margin-bottom:6px;}
+  .brandmark svg{width:36px; height:36px; flex:0 0 auto;}
+  .brand-name{font-family:'Cinzel',serif; font-weight:600; font-size:.98rem; color:#fff; letter-spacing:.06em;}
+  .brand-name .search{color:var(--gold);}
+  .brand-tagline{
+    font-size:.65rem; letter-spacing:.16em; text-transform:uppercase;
+    color:var(--gold-dim); margin:2px 0 30px 48px;
+  }
+  nav.sidebar .nav-group-label{
+    font-size:.66rem; text-transform:uppercase; letter-spacing:.12em;
+    color:var(--ink-faint); margin:22px 0 8px;
+  }
+  nav.sidebar a{
+    display:block; color:#B4AC98; text-decoration:none;
+    font-size:.87rem; padding:6px 0 6px 12px; border-left:2px solid transparent;
+    transition:.15s;
+  }
+  nav.sidebar a:hover{color:var(--gold-soft); border-left-color:var(--gold);}
+  nav.sidebar .quicklinks{margin-top:28px; padding-top:18px; border-top:1px solid var(--line);}
+  nav.sidebar .quicklinks a{
+    background:rgba(201,168,76,.08); border-radius:4px; margin-bottom:6px;
+    padding:9px 10px 9px 12px; border-left:2px solid var(--gold); font-size:.81rem; color:var(--gold-soft);
+  }
+
+  main{flex:1; min-width:0;}
+
+  .topbar{
+    background:var(--void-card); color:var(--ink-dim);
+    padding:14px 44px; display:flex; gap:26px; flex-wrap:wrap;
+    align-items:center; font-size:.82rem;
+    border-bottom:1px solid var(--gold-dim);
+  }
+  .topbar strong{color:var(--gold); font-weight:600;}
+  .topbar .divider{width:1px; height:14px; background:var(--line);}
+
+  .hero{
+    padding:64px 44px 46px;
+    background:
+      radial-gradient(ellipse at 88% -10%, rgba(201,168,76,.10), transparent 55%),
+      var(--void);
+    border-bottom:1px solid var(--line);
+  }
+  .hero .eyebrow{
+    font-size:.72rem; letter-spacing:.18em; text-transform:uppercase;
+    color:var(--gold); font-weight:600; margin-bottom:16px;
+    display:flex; align-items:center; gap:10px;
+    font-family:'Cinzel',serif;
+  }
+  .hero h1{font-size:2.7rem; max-width:760px; font-weight:600; color:#fff;}
+  .hero .lede{max-width:660px; font-size:1.06rem; color:var(--ink-dim); margin-top:16px;}
+  .hero .promise{
+    margin-top:26px; padding:20px 24px; background:var(--void-card);
+    border-left:2px solid var(--gold); border-radius:0 6px 6px 0;
+    max-width:660px; font-family:'Cormorant Garamond',serif; font-size:1.25rem;
+    font-weight:600; font-style:italic; color:var(--gold-soft);
+  }
+
+  section{padding:52px 44px; max-width:var(--maxw); margin:0 auto; border-bottom:1px solid var(--line);}
+  section:last-of-type{border-bottom:none;}
+  .section-tag{
+    font-size:.7rem; letter-spacing:.16em; text-transform:uppercase;
+    color:var(--gold-dim); font-weight:600; margin-bottom:8px; font-family:'Cinzel',serif;
+  }
+  section h2{font-size:1.75rem; margin-bottom:.3em; color:#fff;}
+  section h3{font-size:1.18rem; margin-top:28px; color:var(--gold-soft); font-weight:600;}
+  section p{color:var(--ink-dim); max-width:70ch;}
+  .subnote{color:var(--ink-faint); font-size:.88rem;}
+
+  .seal-divider{
+    display:flex; align-items:center; gap:14px; margin:0 44px;
+    max-width:var(--maxw); margin-left:auto; margin-right:auto;
+  }
+  .seal-divider .line{flex:1; height:1px; background:linear-gradient(90deg,var(--line),transparent);}
+  .seal-divider .line.right{background:linear-gradient(90deg,transparent,var(--line));}
+  .seal-divider svg{width:22px; height:22px;}
+
+  .grid-2{display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:18px;}
+  .grid-3{display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:18px;}
+  .card{
+    background:var(--void-card); border:1px solid var(--line);
+    border-radius:var(--radius); padding:18px 20px;
+  }
+  .card h4{font-size:1.02rem; margin-bottom:6px; color:var(--ink);}
+  .card p{margin:0; font-size:.9rem; color:var(--ink-dim);}
+  .pill{
+    display:inline-block; font-size:.68rem; font-weight:600; letter-spacing:.06em; text-transform:uppercase;
+    padding:3px 10px; border-radius:2px; background:rgba(201,168,76,.1); color:var(--gold);
+    margin-bottom:8px; border:1px solid var(--gold-dim); font-family:'Cinzel',serif;
+  }
+
+  table{width:100%; border-collapse:collapse; margin-top:18px; font-size:.9rem; background:var(--void-card); border-radius:var(--radius); overflow:hidden;}
+  thead th{
+    background:#000; color:var(--gold); text-align:left; padding:11px 14px;
+    font-size:.72rem; text-transform:uppercase; letter-spacing:.08em; font-weight:600; font-family:'Cinzel',serif;
+    border-bottom:1px solid var(--gold-dim);
+  }
+  tbody td{padding:11px 14px; border-bottom:1px solid var(--line); vertical-align:top; color:var(--ink-dim);}
+  tbody tr:last-child td{border-bottom:none;}
+  tbody tr:nth-child(even){background:rgba(255,255,255,.015);}
+  td.label{font-weight:600; color:var(--ink); white-space:nowrap;}
+
+  .phase{display:grid; grid-template-columns:44px 1fr; gap:18px; margin-top:22px;}
+  .phase .num{
+    width:44px; height:44px; border-radius:50%; background:#000; border:1px solid var(--gold-dim);
+    color:var(--gold); display:flex; align-items:center; justify-content:center;
+    font-family:'Cinzel',serif; font-weight:600; font-size:.98rem;
+  }
+  .phase .num.active{background:var(--gold); color:#060606; border-color:var(--gold);}
+  .phase-body{padding-bottom:8px; border-left:1px solid var(--line); padding-left:18px; margin-left:22px; margin-top:-40px; padding-top:44px;}
+  .phase-body h4{margin-bottom:4px; font-size:1.05rem; color:var(--ink);}
+  .phase-body .result{
+    margin-top:8px; font-size:.85rem; background:rgba(201,168,76,.08); color:var(--gold-soft);
+    padding:8px 12px; border-radius:4px; display:inline-block; border:1px solid var(--gold-dim);
+  }
+
+  details.acc{
+    background:var(--void-card); border:1px solid var(--line); border-radius:var(--radius);
+    margin-top:10px; overflow:hidden;
+  }
+  details.acc summary{
+    cursor:pointer; list-style:none; padding:14px 18px; font-weight:600; color:var(--ink);
+    display:flex; justify-content:space-between; align-items:center; font-size:.95rem;
+  }
+  details.acc summary::-webkit-details-marker{display:none;}
+  details.acc summary::after{content:'+'; font-family:'Cormorant Garamond',serif; font-size:1.4rem; color:var(--gold); flex:0 0 auto;}
+  details.acc[open] summary::after{content:'–';}
+  details.acc[open] summary{border-bottom:1px solid var(--line);}
+  details.acc .acc-body{padding:14px 18px 18px; font-size:.9rem; color:var(--ink-dim);}
+  details.acc .acc-body p{margin:.5em 0;}
+  details.acc .acc-body .say{
+    background:rgba(201,168,76,.06); border-left:2px solid var(--gold); padding:10px 14px;
+    border-radius:0 4px 4px 0; margin:8px 0; font-style:italic; color:var(--ink);
+  }
+
+  .paybox{background:#000; border:1px solid var(--gold-dim); border-radius:8px; padding:28px 30px; margin-top:22px;}
+  .paybox h3{color:var(--gold); margin-top:0; font-family:'Cinzel',serif; font-size:1.1rem; letter-spacing:.03em;}
+  .pay-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:16px;}
+  .pay-card{background:var(--void-card); border:1px solid var(--line); border-radius:6px; padding:16px;}
+  .pay-card .plan{font-weight:600; font-size:.9rem; color:var(--ink); margin-bottom:2px;}
+  .pay-card .amount{font-family:'Cormorant Garamond',serif; font-weight:700; color:var(--gold); font-size:1.2rem; margin-bottom:10px;}
+  .pay-card a.link{
+    display:block; word-break:break-all; font-size:.75rem; color:var(--ink-dim);
+    background:#000; padding:8px 10px; border-radius:4px; text-decoration:none; border:1px solid var(--line);
+  }
+  .pay-card a.link:hover{color:var(--gold-soft); border-color:var(--gold-dim);}
+  .onboarding-line{
+    margin-top:16px; padding-top:16px; border-top:1px solid var(--line);
+    display:flex; align-items:center; gap:10px; flex-wrap:wrap; font-size:.88rem; color:var(--ink-dim);
+  }
+  .onboarding-line a{color:var(--gold);}
+
+  .dodont{display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:18px;}
+  .dodont .box{border-radius:var(--radius); padding:16px 18px; border:1px solid var(--line);}
+  .dodont .do{background:rgba(201,168,76,.05);}
+  .dodont .dont{background:rgba(150,40,30,.08); border-color:#4A2A24;}
+  .dodont h4{margin-bottom:8px; font-size:.85rem; text-transform:uppercase; letter-spacing:.06em; font-family:'Cinzel',serif;}
+  .dodont .do h4{color:var(--gold-soft);}
+  .dodont .dont h4{color:#D08370;}
+  .dodont ul{margin:0; padding-left:18px; font-size:.87rem; color:var(--ink-dim);}
+  .dodont li{margin-bottom:5px;}
+
+  .callout{
+    background:rgba(201,168,76,.07); border:1px solid var(--gold-dim); border-radius:var(--radius);
+    padding:16px 20px; margin-top:18px; font-size:.9rem; color:var(--ink-dim);
+  }
+  .callout strong{color:var(--gold);}
+
+  footer{
+    padding:34px 44px 60px; max-width:var(--maxw); margin:0 auto;
+    color:var(--ink-faint); font-size:.8rem; display:flex; align-items:center; gap:10px;
+  }
+  footer svg{width:18px; height:18px; opacity:.6;}
+
+  .checklist{list-style:none; padding:0; margin-top:16px;}
+  .checklist li{
+    display:flex; gap:10px; align-items:flex-start; padding:7px 0; font-size:.9rem; color:var(--ink-dim);
+    border-bottom:1px dashed var(--line);
+  }
+  .checklist li:last-child{border-bottom:none;}
+  .checklist .box{flex:0 0 15px; width:15px; height:15px; border:1px solid var(--gold-dim); border-radius:2px; margin-top:2px;}
+
+  .wa-msg{
+    background:#000; border:1px solid var(--line); border-radius:8px; padding:18px 20px; margin-top:14px;
+    font-size:.88rem; color:var(--ink-dim); white-space:pre-wrap; line-height:1.6;
+  }
+  .wa-msg .wa-head{font-size:.72rem; text-transform:uppercase; letter-spacing:.1em; color:var(--gold-dim); margin-bottom:10px; font-family:'Cinzel',serif;}
+
+  @media (max-width:900px){
+    .shell{flex-direction:column;}
+    nav.sidebar{position:relative; width:100%; height:auto; flex:none;}
+    .grid-2, .grid-3, .pay-grid, .dodont{grid-template-columns:1fr;}
+    .hero, section, .topbar, footer{padding-left:22px; padding-right:22px;}
+    .seal-divider{margin-left:22px; margin-right:22px;}
+    .hero h1{font-size:2.1rem;}
+  }
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <nav class="sidebar">
+    <div class="brandmark">
+      <svg viewBox="0 0 100 100" fill="none">
+        <polygon points="50,4 90,26 90,74 50,96 10,74 10,26" stroke="#C9A84C" stroke-width="3" fill="#060606"/>
+        <polygon points="50,16 79,32 79,68 50,84 21,68 21,32" stroke="#8E763A" stroke-width="1.2" fill="none"/>
+        <path d="M33 50 L45 62 L69 36" stroke="#C9A84C" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <div>
+        <div class="brand-name">CLOSER<span class="search"> SEARCH</span></div>
+      </div>
+    </div>
+    <div class="brand-tagline">Selección de talento de cierre</div>
+
+    <div class="nav-group-label">El producto</div>
+    <a href="#resumen">Resumen ejecutivo</a>
+    <a href="#avatar">Avatar del cliente</a>
+    <a href="#dolores">Dolores, deseos y miedos</a>
+    <a href="#oferta">Oferta y los 4 pilares</a>
+    <a href="#fases">Fases del programa (24+1 semanas)</a>
+    <a href="#incluye">Qué incluye el programa</a>
+
+    <div class="nav-group-label">Venta</div>
+    <a href="#embudo">Embudo completo</a>
+    <a href="#script">Estructura de la llamada</a>
+    <a href="#objeciones">Manejo de objeciones</a>
+    <a href="#limites">Qué no prometer nunca</a>
+
+    <div class="nav-group-label">Operativa</div>
+    <a href="#inversion">Inversión y enlaces de pago</a>
+    <a href="#proceso-closer">Procedimiento del Closer</a>
+
+    <div class="quicklinks">
+      <a href="#inversion">Enlaces de pago</a>
+      <a href="#proceso-closer">Mensaje pre-llamada (Closer)</a>
+    </div>
+  </nav>
+
+  <main>
+    <div class="topbar">
+      <span><strong>Programa</strong> Edu Morán · Sobrepeso y obesidad</span>
+      <span class="divider"></span>
+      <span><strong>Duración</strong> 24 semanas + 1 de onboarding</span>
+      <span class="divider"></span>
+      <span><strong>Inversión</strong> desde 797&nbsp;€ · estándar 1.397&nbsp;€</span>
+      <span class="divider"></span>
+      <span><strong>Formato</strong> Cierre en llamada de acceso (videollamada)</span>
+    </div>
+
+    <header class="hero">
+      <div class="eyebrow">
+        <svg width="16" height="16" viewBox="0 0 100 100" fill="none"><polygon points="50,4 90,26 90,74 50,96 10,74 10,26" fill="#C9A84C"/><path d="M33 50 L45 62 L69 36" stroke="#060606" stroke-width="7" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Informe operativo · Closer Search · Equipo de Closers
+      </div>
+      <h1>Cómo funciona el programa de Edu Morán</h1>
+      <p class="lede">Este documento reúne el avatar de cliente, la oferta, la estructura de la llamada de acceso y los datos operativos (precio, enlaces de pago y onboarding) que necesitas para llevar una llamada de principio a fin con criterio propio, no solo leyendo un guion.</p>
+      <div class="promise">"Ayudamos a mujeres a abandonar el sobrepeso sin prohibir ningún alimento ni renunciar a su vida social. Sin pinchazos ni batidos."</div>
+    </header>
+
+    <section id="resumen">
+      <div class="section-tag">01 · Contexto</div>
+      <h2>Resumen ejecutivo</h2>
+      <p>El programa de Edu Morán es un <strong style="color:var(--ink);">acompañamiento online de 24 semanas + 1 semana de onboarding</strong> (precio estándar 1.397&nbsp;€, con versiones acelerada y anual — ver sección Inversión) dirigido a mujeres con sobrepeso u obesidad que han probado múltiples dietas, batidos y métodos sin resultados duraderos. No es una dieta restrictiva ni un reto de fuerza de voluntad: es un cambio de sistema, construido sobre 4 pilares que se trabajan a la vez, nunca por separado.</p>
+      <div class="grid-2">
+        <div class="card">
+          <div class="pill">Pilar 1</div>
+          <h4>Entrenamiento de fuerza</h4>
+          <p>En casa, adaptado, 3–4 días de 20 minutos. Sin gimnasios de horas ni mancuernas pesadas.</p>
+        </div>
+        <div class="card">
+          <div class="pill">Pilar 2</div>
+          <h4>Movimiento mínimo diario</h4>
+          <p>Adaptado al día a día de cada mujer, no un objetivo de pasos rígido.</p>
+        </div>
+        <div class="card">
+          <div class="pill">Pilar 3</div>
+          <h4>Nutrición flexible</h4>
+          <p>Menú mensual + app de cambio de alimentos. Ningún alimento prohibido, sin dietas cerradas.</p>
+        </div>
+        <div class="card">
+          <div class="pill">Pilar 4</div>
+          <h4>Seguimiento y mentalidad</h4>
+          <p>Soporte diario, comunidad y gestión de entorno. El pilar que más marca la diferencia.</p>
+        </div>
+      </div>
+      <div class="callout"><strong>Idea clave para la llamada:</strong> la clienta no ha fallado ella; han fallado los métodos que probó porque atacaban solo una variable (comida, o entrenamiento) y nunca el conjunto. NO SABE CÓMO, no es que no pueda.</div>
+    </section>
+
+    <div class="seal-divider"><span class="line"></span>
+      <svg viewBox="0 0 100 100" fill="none"><polygon points="50,4 90,26 90,74 50,96 10,74 10,26" stroke="#8E763A" stroke-width="4" fill="none"/><path d="M33 50 L45 62 L69 36" stroke="#8E763A" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <span class="line right"></span></div>
+
+    <section id="avatar">
+      <div class="section-tag">02 · Cliente ideal</div>
+      <h2>Avatar del cliente</h2>
+      <p>Antes de la llamada, ten presente contra quién estás hablando: una mujer que llega desde el contenido de Instagram de Edu (254&nbsp;mil seguidores), que ya conoce el enfoque "sin pinchazos ni batidos" y que necesita sentir que esta vez sí puede confiar en el proceso.</p>
+      <table>
+        <thead><tr><th>Variable</th><th>Detalle</th></tr></thead>
+        <tbody>
+          <tr><td class="label">Perfil</td><td>Mujeres adultas con sobrepeso u obesidad, distintos rangos de edad (testimonios muestran desde treintañeras hasta mujeres en torno a los 60)</td></tr>
+          <tr><td class="label">Historial</td><td>Han probado varias dietas, productos, batidos o incluso intervenciones (balón gástrico) sin mantener el resultado</td></tr>
+          <tr><td class="label">Canal de llegada</td><td>Instagram (@edu.moran.entrenador) — contenido, testimonios y encuestas en stories</td></tr>
+          <tr><td class="label">Motivación principal</td><td>Perder peso sin efecto rebote, sin renunciar a su vida social ni a comer con su familia</td></tr>
+          <tr><td class="label">Estilo de decisión</td><td>Emocional y de acompañamiento — necesita sentir que esta vez habrá alguien a diario, no solo un PDF con una dieta</td></tr>
+          <tr><td class="label">Miedo de fondo</td><td>Que esta vez tampoco funcione, o que vuelva a abandonar como "siempre"</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="dolores">
+      <div class="section-tag">03 · Psicografía</div>
+      <h2>Dolores, deseos, sueño oculto y miedo</h2>
+      <p>Estos son los mismos ejes que recorre la fase 2 (objetivos/problemas/creencias) y la fase 3 (panel visionario) de la llamada. Úsalos para reconocer lo que la clienta te está diciendo con otras palabras — y para saber qué creencia limitante hay que romper detrás de cada frase.</p>
+      <div class="grid-2">
+        <div class="card">
+          <div class="pill">Creencias limitantes frecuentes</div>
+          <p>"Coma lo que coma no pierdo peso" · "mis hormonas están muertas" · "no tengo fuerza de voluntad" · "me gusta mucho salir y mi vida social lo hace imposible" · "no tengo dinero para un entrenador personal". Todas son variaciones de <strong style="color:var(--ink);">NO SABE CÓMO</strong>, no de que no pueda.</p>
+        </div>
+        <div class="card">
+          <div class="pill">Deseos profundos</div>
+          <p>Aprender a comer sin depender de una dieta cerrada · ser constante sin sufrir · perder peso sin efecto rebote · tener a alguien a diario que le ayude a sostenerlo · recuperar confianza en sí misma.</p>
+        </div>
+      </div>
+      <div class="grid-2">
+        <div class="card">
+          <div class="pill">Sueño oculto (panel visionario)</div>
+          <p>Verse en el espejo dentro de 12 meses como quiere verse: qué ropa llevaría, qué cara tendría, qué vida social tendría, cómo sería su relación de pareja, quién saldría en esa foto y qué pensaría de ella.</p>
+        </div>
+        <div class="card">
+          <div class="pill">Miedo principal</div>
+          <p>Seguir posponiendo y seguir en la dinámica de siempre: otra dieta, otro batido, otra pastilla que la lleve al mismo sitio de siempre — y que el sobrepeso siga escalando sin que ella tome acción ya.</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="seal-divider"><span class="line"></span>
+      <svg viewBox="0 0 100 100" fill="none"><polygon points="50,4 90,26 90,74 50,96 10,74 10,26" stroke="#8E763A" stroke-width="4" fill="none"/><path d="M33 50 L45 62 L69 36" stroke="#8E763A" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <span class="line right"></span></div>
+
+    <section id="oferta">
+      <div class="section-tag">04 · Producto</div>
+      <h2>La oferta y los 4 pilares</h2>
+      <p>Lo que se presenta en la llamada como el camino de punto A (donde está ahora) a punto B (su resultado soñado): un <strong style="color:var(--ink);">concepto integral</strong> donde entrenamiento, comida, mentalidad y entorno se trabajan a la vez, sin que ninguna variable pese más que las demás.</p>
+      <table>
+        <thead><tr><th>Pilar</th><th>Qué es</th><th>Qué resuelve</th></tr></thead>
+        <tbody>
+          <tr><td class="label">Entrenamiento de fuerza</td><td>En casa, adaptado, 3–4 días de 20 minutos, sin material pesado</td><td>"No tengo tiempo", "me da vergüenza el gimnasio", "lo dejo a los dos días"</td></tr>
+          <tr><td class="label">Movimiento mínimo diario</td><td>Adaptado al día a día real, no un número de pasos obligatorio</td><td>Sensación de inutilidad, falta de energía, vida sedentaria</td></tr>
+          <tr><td class="label">Nutrición flexible</td><td>Menú mensual + app de cambio de alimentos, sin alimentos prohibidos</td><td>Atracones por prohibición, dietas cerradas que no se sostienen en el tiempo</td></tr>
+          <tr><td class="label">Seguimiento / mentalidad / entorno</td><td>Soporte diario, comunidad de WhatsApp, gestión de un "lunes de querer abandonar"</td><td>Falta de constancia, culpabilidad, extremismo blanco-negro, sensación de estar sola en el proceso</td></tr>
+        </tbody>
+      </table>
+      <h3>Por qué es diferente</h3>
+      <p>La mayoría de dietas y programas atacan solo la comida o solo el entrenamiento, y nunca lo que de verdad sostiene el cambio: la organización, la mentalidad y el entorno diario. Por eso las clientas "fallaron" antes — no porque no pudieran, sino porque nadie les enseñó cómo sostenerlo. No hay pinchazos, ni batidos, ni alimentos prohibidos: es una relación distinta con la comida y con el propio cuerpo, pensada para toda la vida, no para 3 ni 6 meses.</p>
+    </section>
+
+    <section id="fases">
+      <div class="section-tag">05 · Programa</div>
+      <h2>Las 3 fases del acompañamiento (24 semanas + 1)</h2>
+      <p>Explica esta línea temporal en la llamada, en el bloque de "Explicación del programa" — solo después de que la clienta haya confirmado que este es el momento de dar el paso.</p>
+
+      <div class="phase">
+        <div class="num active">1</div>
+        <div class="phase-body">
+          <h4>Onboarding y activación — Semana 1</h4>
+          <p>Videollamada de bienvenida, descarga y configuración de la app Harbiz, documento de onboarding (reseteo de creencias y mentalidad), primer plan de comida y primeros entrenamientos pautados.</p>
+          <span class="result">Resultado esperado: la clienta entiende el sistema completo y empieza con energía y compromiso desde el día 1</span>
+        </div>
+      </div>
+      <div class="phase">
+        <div class="num active">2</div>
+        <div class="phase-body">
+          <h4>Transformación activa — Semanas 2–20</h4>
+          <p>Entrenamientos de fuerza guiados, plan de comida mensual con app de sustituciones, movimiento mínimo diario, soporte diario (máx. 24h de respuesta), vídeo de seguimiento semanal.</p>
+          <span class="result">Resultado esperado: pérdida de peso sostenida, hábito de entrenamiento consolidado, relación con la comida sin culpa</span>
+        </div>
+      </div>
+      <div class="phase">
+        <div class="num active">3</div>
+        <div class="phase-body">
+          <h4>Consolidación y autonomía — Semanas 21–24</h4>
+          <p>Ajuste fino de plan y entrenamientos, refuerzo de mentalidad de crecimiento y largo plazo, preparación para sostener los hábitos sin depender del seguimiento diario.</p>
+          <span class="result">Resultado esperado: resultado mantenido en el tiempo + herramientas para no volver a depender de dietas</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="incluye">
+      <div class="section-tag">06 · Entrega</div>
+      <h2>Qué incluye el programa</h2>
+      <table>
+        <thead><tr><th>Elemento</th><th>Formato</th><th>Descripción</th></tr></thead>
+        <tbody>
+          <tr><td class="label">Entrenamientos de fuerza individualizados</td><td>App Harbiz</td><td>Material necesario, cargas y técnica pautados para entrenar de forma sencilla y ser constante</td></tr>
+          <tr><td class="label">Plan de comida</td><td>Menú mensual + app</td><td>Menú elaborado según necesidades, con app de cambio de alimentos para adaptarlo a sus gustos</td></tr>
+          <tr><td class="label">Plan de movimiento mínimo diario</td><td>App Harbiz</td><td>Mínimos marcados por el equipo, forma y momento del día a elección de la clienta</td></tr>
+          <tr><td class="label">Soporte diario</td><td>App / WhatsApp</td><td>Dudas, preguntas y apoyo con un máximo de 24h de respuesta</td></tr>
+          <tr><td class="label">Seguimiento semanal</td><td>Vídeo (lunes o martes)</td><td>Evaluación de la semana anterior, métricas y propuestas de mejora</td></tr>
+          <tr><td class="label">Comunidad de WhatsApp</td><td>Grupo</td><td>Mujeres que ya han pasado por el proceso: éxitos, miedos y apoyo mutuo</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <div class="seal-divider"><span class="line"></span>
+      <svg viewBox="0 0 100 100" fill="none"><polygon points="50,4 90,26 90,74 50,96 10,74 10,26" stroke="#8E763A" stroke-width="4" fill="none"/><path d="M33 50 L45 62 L69 36" stroke="#8E763A" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <span class="line right"></span></div>
+
+    <section id="embudo">
+      <div class="section-tag">07 · Funnel</div>
+      <h2>El embudo completo: de Instagram a la venta</h2>
+      <p>Un closer no entra en la llamada desde cero: el setteo inicial ya lo realiza una IA entrenada con reportes continuos del equipo. Conocer el recorrido previo te permite continuar la conversación en el punto exacto donde la dejó, sin repetir preguntas.</p>
+      <div class="phase">
+        <div class="num">1</div>
+        <div class="phase-body"><h4>Instagram → primer contacto automático</h4><p>Cuando alguien empieza a seguir la cuenta o responde a la encuesta de una story, la IA le da la bienvenida y continúa la conversación de setteo automáticamente, con el mismo enfoque con el que el equipo la ha educado.</p></div>
+      </div>
+      <div class="phase">
+        <div class="num">2</div>
+        <div class="phase-body"><h4>Cualificación por IA</h4><p>La IA descubre problema, intentos previos y objetivo, y propone la llamada de acceso cuando detecta encaje.</p></div>
+      </div>
+      <div class="phase">
+        <div class="num">3</div>
+        <div class="phase-body"><h4>Confirmación + vídeo de preparación (Closer)</h4><p>24–20h antes de la llamada, el Closer envía por WhatsApp el vídeo de preparación y pide confirmación de que lo ha visto, además del punto en el que más ayuda necesita (ver plantilla en Procedimiento del Closer).</p></div>
+      </div>
+      <div class="phase">
+        <div class="num active">4</div>
+        <div class="phase-body"><h4>Llamada de acceso del closer</h4><p>Aquí entras tú: validas encaje, profundizas en creencias limitantes, conectas el método con lo que la clienta ya te ha contado y presentas precio y acceso únicamente cuando hay encaje confirmado.</p></div>
+      </div>
+      <div class="callout"><strong>Regla de oro:</strong> lee lo que el prospecto respondió al Closer sobre "el punto en el que más ayuda necesita" antes de entrar en la llamada — te da la fase 2 casi hecha.</div>
+    </section>
+
+    <div class="seal-divider"><span class="line"></span>
+      <svg viewBox="0 0 100 100" fill="none"><polygon points="50,4 90,26 90,74 50,96 10,74 10,26" stroke="#8E763A" stroke-width="4" fill="none"/><path d="M33 50 L45 62 L69 36" stroke="#8E763A" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <span class="line right"></span></div>
+
+    <section id="script">
+      <div class="section-tag">08 · Llamada de acceso</div>
+      <h2>Estructura de la llamada (5 bloques)</h2>
+      <p>Resumen operativo del guion completo. Las fases son una guía, no un guion robótico: el objetivo es que la clienta entienda el camino de A a B y por qué contigo sí va a funcionar.</p>
+
+      <details class="acc" open>
+        <summary>1 · Conexión</summary>
+        <div class="acc-body">
+          <p>Presentación, saludo, sonrisa. Interés genuino: de dónde es, si tiene familia, a qué se dedica, cómo nos conoció, qué le ha gustado del contenido. El objetivo es que baje la tensión de "a ver qué me van a vender".</p>
+        </div>
+      </details>
+
+      <details class="acc">
+        <summary>2 · Objetivos / problemas / creencias — nivel de consciencia</summary>
+        <div class="acc-body">
+          <p>La fase más importante — más tiempo preguntando que hablando. Pregunta de apertura: <span class="say">"¿Qué objetivo quieres conseguir de aquí a 3 meses? ¿Y a 6 meses?"</span> Después: qué ha intentado antes, qué falló, cómo era su nutrición, cómo entrena y se mueve, cómo ha sido el seguimiento hasta ahora, y cuánto ha invertido antes en esto (ancla el precio alto con su propia cifra).</p>
+          <p>Cierra la fase con: <span class="say">"¿Y pagarías 3.000&nbsp;€ si te aseguran que en 12 meses consigues tu resultado soñado?"</span> — sigue rompiendo creencias hasta que la respuesta final sea "necesito un programa integral que incluya todo".</p>
+        </div>
+      </details>
+
+      <details class="acc">
+        <summary>3 · Panel visionario</summary>
+        <div class="acc-body">
+          <p>Cómo se vería en 12 meses: qué estaría haciendo, qué ropa llevaría, quién saldría en esa foto, qué vida social y de pareja tendría. Cierra con dos preguntas de calibración: <span class="say">"¿Cómo de importante es conseguirlo para ti ahora del 1 al 10?"</span> y <span class="say">"¿Cuánto confías en nosotros para ayudarte del 1 al 10?"</span> (un 10 en confianza suele indicar que no está siendo del todo sincera).</p>
+        </div>
+      </details>
+
+      <details class="acc">
+        <summary>4 · Explicación del programa</summary>
+        <div class="acc-body">
+          <p>Máximo 10 minutos. Explica los 4 pilares como si hablaras con una niña de 10 años, haciendo más hincapié en la parte que la clienta ha dicho que le cuesta más. Muestra <strong style="color:var(--ink);">desapego real</strong> — nunca convencer. Pregunta antes de dar precio: <span class="say">"¿Crees que con este método conseguirás lo que me has contado?"</span></p>
+        </div>
+      </details>
+
+      <details class="acc">
+        <summary>5 · Precio y acceso</summary>
+        <div class="acc-body">
+          <p>Da el precio de forma clara y sin miedo: "el precio del programa completo, con todo para conseguir [lo que haya dicho], es de 1.397&nbsp;€, todo incluido". <span class="say">"Entonces qué, ¿nos ponemos a ello?"</span> — y silencio. Ver formas de pago en la sección Inversión.</p>
+        </div>
+      </details>
+    </section>
+
+    <div class="seal-divider"><span class="line"></span>
+      <svg viewBox="0 0 100 100" fill="none"><polygon points="50,4 90,26 90,74 50,96 10,74 10,26" stroke="#8E763A" stroke-width="4" fill="none"/><path d="M33 50 L45 62 L69 36" stroke="#8E763A" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <span class="line right"></span></div>
+
+    <section id="objeciones">
+      <div class="section-tag">09 · Objeciones</div>
+      <h2>Manejo de objeciones</h2>
+
+      <details class="acc" open>
+        <summary>"Me lo tengo que pensar / consultarlo con mi pareja"</summary>
+        <div class="acc-body">
+          <p>Si es por la pareja: <span class="say">"¿Está en casa? ¿Puedes hablar ya con ella? Yo te espero sin problema."</span> Si es por echar cuentas: <span class="say">"¿Cuánto tardas? Yo te espero."</span> Si sigue queriendo más tiempo, aísla la duda real: <span class="say">"¿Es echar cuentas o te ha quedado alguna duda del programa o tienes miedo?"</span> Y después: <span class="say">"¿Crees que la decisión de posponerlo la tomas desde lo que quieres conseguir o desde el miedo?"</span> Deja silencio, no rellenes el hueco.</p>
+          <p>Si aun así no decide en la llamada: <strong style="color:var(--ink);">no aprietes más.</strong> Ofrece una reserva de 150&nbsp;€ para garantizar la plaza mientras lo piensa, y fija día y hora concretos (máximo 2 días) para la decisión final.</p>
+        </div>
+      </details>
+
+      <details class="acc">
+        <summary>"Es caro" / anclaje del precio</summary>
+        <div class="acc-body">
+          <p>El precio casi nunca es el problema real: suele faltar certeza en el método o en sí misma. Antes de dar el precio, ya se ha anclado con lo que ha invertido antes en dietas/productos sin resultado — vuelve a esa cifra si aparece la objeción.</p>
+        </div>
+      </details>
+
+      <details class="acc">
+        <summary>"No tengo dinero para un entrenador"</summary>
+        <div class="acc-body"><p>Es una creencia limitante, no un hecho: no se le da al proceso la importancia real que tiene. Compara con gastos que sí prioriza (aparatos, viajes, operaciones) frente al coste diario del programa.</p></div>
+      </details>
+
+      <details class="acc">
+        <summary>Seguimiento a quien no entró por precio (versión acelerada)</summary>
+        <div class="acc-body"><p>Si una clienta no entró específicamente por el precio del programa estándar (1.397&nbsp;€), en el follow-up se puede ofrecer la <strong style="color:var(--ink);">versión acelerada 12+1 (797&nbsp;€)</strong>. No se ofrece de entrada en la llamada — solo como puente en el seguimiento posterior.</p></div>
+      </details>
+
+      <details class="acc">
+        <summary>Interés en el programa anual</summary>
+        <div class="acc-body"><p>Si la propia clienta pregunta específicamente por comprometerse a más tiempo, se presenta el <strong style="color:var(--ink);">programa anual (9 meses + 3 de regalo, 2.250&nbsp;€)</strong>, con el ahorro de 545&nbsp;€ frente al año completo al precio estándar.</p></div>
+      </details>
+
+      <div class="callout"><strong>Regla sobre las alternativas de precio:</strong> por defecto se trabaja siempre el programa estándar de 24+1 semanas (1.397&nbsp;€) siguiendo el guion tal cual. La versión acelerada y la anual solo se ofrecen si Edu comunica expresamente una estrategia distinta, si es un follow-up a alguien que no entró por precio, o si la propia clienta pregunta por el programa anual.</div>
+    </section>
+
+    <section id="limites">
+      <div class="section-tag">10 · Límites</div>
+      <h2>Qué no prometer nunca</h2>
+      <div class="dodont">
+        <div class="box do">
+          <h4>Se puede decir</h4>
+          <ul>
+            <li>El programa se adapta a su nivel real y a su día a día</li>
+            <li>Ningún alimento está prohibido, es un cambio de sistema para toda la vida</li>
+            <li>Soporte diario y acompañamiento si la clienta cumple su parte</li>
+            <li>Casos de éxito reales de clientas con perfil similar</li>
+          </ul>
+        </div>
+        <div class="box dont">
+          <h4>Nunca prometer</h4>
+          <ul>
+            <li>Una cifra exacta de kilos o una fecha concreta de resultado</li>
+            <li>Cura de condiciones hormonales, metabólicas o médicas</li>
+            <li>Sustituir tratamiento o seguimiento médico</li>
+            <li>Diagnosticar o interpretar analíticas o pruebas médicas</li>
+            <li>Manipular con miedo, culpa o presión más allá de romper la creencia limitante con preguntas</li>
+          </ul>
+        </div>
+      </div>
+      <p class="subnote">Ante cualquier condición de salud relevante (cirugías previas como balón gástrico, patologías, medicación), recomienda valoración médica antes de continuar el proceso comercial.</p>
+    </section>
+
+    <div class="seal-divider"><span class="line"></span>
+      <svg viewBox="0 0 100 100" fill="none"><polygon points="50,4 90,26 90,74 50,96 10,74 10,26" stroke="#8E763A" stroke-width="4" fill="none"/><path d="M33 50 L45 62 L69 36" stroke="#8E763A" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <span class="line right"></span></div>
+
+    <section id="inversion">
+      <div class="section-tag">11 · Operativa de cierre</div>
+      <h2>Inversión y enlaces de pago</h2>
+      <p>Tres programas disponibles. Por defecto se trabaja siempre el <strong style="color:var(--ink);">programa de 24+1 semanas (1.397&nbsp;€)</strong> — los otros dos solo se ofrecen en los casos descritos en la sección de Objeciones. Todos los pagos por transferencia van a la misma cuenta.</p>
+
+      <div class="paybox">
+        <h3>Programa 24 semanas + 1 · 1.397&nbsp;€ (estándar — por defecto)</h3>
+        <div class="pay-grid">
+          <div class="pay-card">
+            <div class="plan">Pago único</div>
+            <div class="amount">1.397&nbsp;€</div>
+            <a class="link" href="#">ES78 2100 8073 5502 0014 1686 · Benef. Eduardo Moran Camacho · Concepto: "Nombre Programa"</a>
+          </div>
+          <div class="pay-card">
+            <div class="plan">Tarjeta 3x (Klarna)</div>
+            <div class="amount">3 x 483&nbsp;€ (1.450&nbsp;€)</div>
+            <a class="link" href="https://buy.stripe.com/7sY14nelygyV5zLbj53Je0f" target="_blank" rel="noopener">buy.stripe.com/7sY14nelygyV5zLbj53Je0f</a>
+          </div>
+          <div class="pay-card">
+            <div class="plan">2 transferencias</div>
+            <div class="amount">797&nbsp;€ + 600&nbsp;€ (sem. 12)</div>
+            <a class="link" href="#">Misma cuenta ES78 2100 8073 5502 0014 1686</a>
+          </div>
+          <div class="pay-card">
+            <div class="plan">Tarjeta único (Stripe)</div>
+            <div class="amount">1.397&nbsp;€ + comisión</div>
+            <a class="link" href="https://buy.stripe.com/00weVd91egyV6DP5YL3Je0g" target="_blank" rel="noopener">buy.stripe.com/00weVd91egyV6DP5YL3Je0g</a>
+          </div>
+          <div class="pay-card">
+            <div class="plan">Última opción — mensual</div>
+            <div class="amount">241&nbsp;€/mes</div>
+            <a class="link" href="https://buy.stripe.com/3cI7sL6T6beB2nz1Iv3Je0l" target="_blank" rel="noopener">buy.stripe.com/3cI7sL6T6beB2nz1Iv3Je0l</a>
+          </div>
+        </div>
+        <div class="callout" style="margin-top:16px;">
+          <strong>Cómo y cuándo usar la opción mensual (241&nbsp;€/mes):</strong> es la última opción, solo se ofrece cuando ya se ha comprobado que es un perfil con interés real en el programa pero que solo puede pagarlo así — nunca de entrada, para no perder la venta con alguien que sí quiere entrar.
+          <p style="margin:10px 0 0;">En la llamada, preséntala simple, sin tecnicismos: <span style="color:var(--ink);">"sería una cuota mensual de 241&nbsp;€"</span> y ya. Solo si la clienta acepta, se explica el detalle: por petición de la propia financiera (Klarna), que solo permite fraccionar en 3 cuotas seguidas, el cobro se realiza en <strong style="color:var(--ink);">dos transacciones</strong>:</p>
+          <ul style="margin:8px 0 0; padding-left:18px; color:var(--ink-dim);">
+            <li><strong style="color:var(--ink);">Transacción 1</strong> — 241&nbsp;€/mes durante 3 meses (meses 1-3)</li>
+            <li><strong style="color:var(--ink);">Transacción 2</strong> — continuación del mismo compromiso de 6 meses: 241&nbsp;€/mes durante los 3 meses restantes (meses 4-6), enviando de nuevo el mismo enlace en la semana 12. No es una renovación opcional: el programa contratado son 6 meses desde el inicio, esta segunda transacción simplemente completa el pago ya acordado.</li>
+          </ul>
+          <p style="margin:8px 0 0;"><strong style="color:var(--ink);">En llamada, nunca lo presentes como "una renovación a los 3 meses"</strong> — es pagar los 3 meses que faltan de un programa de 6, exactamente igual que se pagaron los 3 primeros. Decirlo como renovación puede darle a la clienta la idea de que en ese momento puede elegir no continuar.</p>
+          <p style="margin:8px 0 0;">Es responsabilidad del closer acordarse de reenviar el enlace en la semana 12 para abrir la segunda transacción — sin ese seguimiento activo, el cliente se queda solo con los 3 primeros pagos hechos y el resto sin cobrar.</p>
+        </div>
+      </div>
+
+      <div class="paybox" style="margin-top:20px;">
+        <h3>Programa acelerado 12+1 · 797&nbsp;€ (solo follow-up por precio)</h3>
+        <div class="pay-grid" style="grid-template-columns:1fr 1fr;">
+          <div class="pay-card">
+            <div class="plan">Pago único</div>
+            <div class="amount">797&nbsp;€</div>
+            <a class="link" href="#">ES78 2100 8073 5502 0014 1686</a>
+          </div>
+          <div class="pay-card">
+            <div class="plan">Financiando a 3 meses (Klarna)</div>
+            <div class="amount">279&nbsp;€/mes</div>
+            <a class="link" href="https://buy.stripe.com/28E9ATfpCgyV6DPcn93Je0i" target="_blank" rel="noopener">buy.stripe.com/28E9ATfpCgyV6DPcn93Je0i</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="paybox" style="margin-top:20px;">
+        <h3>Programa anual (9+3 meses regalo) · 2.250&nbsp;€ (solo si lo pide la clienta)</h3>
+        <p class="subnote" style="margin-top:0;">Ahorro de 545&nbsp;€ frente al precio estándar durante el año completo.</p>
+        <div class="pay-grid">
+          <div class="pay-card">
+            <div class="plan">Transferencia</div>
+            <div class="amount">2.250&nbsp;€</div>
+            <a class="link" href="#">ES78 2100 8073 5502 0014 1686</a>
+          </div>
+          <div class="pay-card">
+            <div class="plan">Tarjeta único (Stripe)</div>
+            <div class="amount">2.325&nbsp;€</div>
+            <a class="link" href="https://buy.stripe.com/7sY14ncdq3M96DP2Mz3Je0k" target="_blank" rel="noopener">buy.stripe.com/7sY14ncdq3M96DP2Mz3Je0k</a>
+          </div>
+          <div class="pay-card">
+            <div class="plan">2 pagos</div>
+            <div class="amount">1.397&nbsp;€ + 853&nbsp;€ (sem. 20)</div>
+            <a class="link" href="#">Misma cuenta ES78 2100 8073 5502 0014 1686</a>
+          </div>
+        </div>
+        <p class="subnote" style="margin-top:12px;">El pago único por tarjeta no permite fraccionar al superar los 2.000&nbsp;€.</p>
+      </div>
+
+      <div class="onboarding-line">
+        <strong style="color:var(--ink);">Tras el pago:</strong>
+        se crea el grupo con el entrenador, se dan los primeros pasos y se envía el <a href="#proceso-closer">documento de onboarding</a> + vídeo de bienvenida.
+      </div>
+      <p class="subnote" style="margin-top:14px;">Recuerda: nunca introduzcas el precio de forma espontánea antes de haber terminado la explicación del programa (bloque 4 del guion).</p>
+    </section>
+
+    <div class="seal-divider"><span class="line"></span>
+      <svg viewBox="0 0 100 100" fill="none"><polygon points="50,4 90,26 90,74 50,96 10,74 10,26" stroke="#8E763A" stroke-width="4" fill="none"/><path d="M33 50 L45 62 L69 36" stroke="#8E763A" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <span class="line right"></span></div>
+
+    <section id="proceso-closer">
+      <div class="section-tag">12 · Proceso de Closer</div>
+      <h2>Procedimiento del Closer: de dónde llegan los leads y cómo cerrar cada uno</h2>
+      <p>El setteo inicial en Instagram lo hace una IA educada con reportes continuos del equipo. El closer entra en el proceso desde la confirmación de la llamada de acceso hasta el cierre y el envío del onboarding.</p>
+
+      <h3>Setteo automático (IA)</h3>
+      <div class="grid-2">
+        <div class="card">
+          <div class="pill">Bienvenidas</div>
+          <p>La IA da la bienvenida automáticamente a cada nueva seguidora de la cuenta de Instagram y continúa la conversación de setteo si la persona responde.</p>
+        </div>
+        <div class="card">
+          <div class="pill">CTAs de stories</div>
+          <p>Cuando alguien responde a una encuesta/CTA en stories, la IA retoma la conversación automáticamente y sigue el mismo enfoque de cualificación.</p>
+        </div>
+      </div>
+      <div class="callout"><strong>Para el equipo:</strong> puedes revisar estas conversaciones para ver cómo la IA hace el setteo y cómo enfoca la charla con el lead antes de agendar la llamada — es la mejor forma de entender el tono que espera Edu.</div>
+
+      <h3>Procedimiento paso a paso: de la llamada agendada al cierre</h3>
+      <div class="phase">
+        <div class="num active">1</div>
+        <div class="phase-body">
+          <h4>Llamada agendada por la IA</h4>
+          <p>La IA agenda la llamada de acceso una vez detecta encaje suficiente en la conversación de Instagram.</p>
+        </div>
+      </div>
+      <div class="phase">
+        <div class="num active">2</div>
+        <div class="phase-body">
+          <h4>Mensaje de preparación (Closer) — 24 a 20h antes</h4>
+          <p>El Closer envía por WhatsApp el vídeo de preparación y pide confirmación de que lo ha visto, además del punto en el que la persona cree que más ayuda necesita, antes de las 23:00h del día previo. Plantilla exacta:</p>
+          <div class="wa-msg"><div class="wa-head">WhatsApp · Closer · 24–20h antes de la llamada</div>Buenas (nombre del prospecto) ! Qué tal? Espero que todo genial!! 😊
+Soy (Closer), el compañero de Edu con quien tienes la consulta mañana a las xx:xxH.
+A continuación, te dejo un video con información importante para la llamada, por favor, confírmame cuando lo hayas visto, e indícame por aquí, antes de hoy a las 23:00H, el punto en el que más ayuda crees que necesitas para que podamos profundizar bien en la llamada.
+https://www.youtube.com/watch?v=TpraQ-lgmjQ
+Recuerda estar en un sitio tranquilo, tener batería y MUCHAS GANAS!
+🚀💪🏼QUE TENGAS BUEN DÍA!! NOS VEMOS MAÑANAA!💪🏼🚀</div>
+        </div>
+      </div>
+      <div class="phase">
+        <div class="num active">3</div>
+        <div class="phase-body">
+          <h4>Preparar la llamada</h4>
+          <p>Lee la respuesta del prospecto sobre en qué punto necesita más ayuda antes de entrar — te adelanta gran parte del descubrimiento de la fase 2.</p>
+        </div>
+      </div>
+      <div class="phase">
+        <div class="num active">4</div>
+        <div class="phase-body">
+          <h4>Ejecutar la llamada de acceso completa</h4>
+          <p>Conexión → objetivos/problemas/creencias → panel visionario → explicación del programa → precio y acceso (ver sección "Estructura de la llamada").</p>
+        </div>
+      </div>
+      <div class="phase">
+        <div class="num active">5</div>
+        <div class="phase-body">
+          <h4>Cierre: confirmar plan de pago</h4>
+          <p>Se acuerda la forma de pago (ver sección "Inversión y enlaces de pago" — por defecto siempre el programa estándar) y se envía el enlace o los datos de transferencia correspondientes.</p>
+        </div>
+      </div>
+      <div class="phase">
+        <div class="num active">6</div>
+        <div class="phase-body">
+          <h4>Enviar onboarding y crear el grupo</h4>
+          <p>En cuanto se confirma el pago: se crea el grupo con el entrenador, se dan los primeros pasos, y se envía el documento de onboarding (PDF) junto con el vídeo de bienvenida al programa.</p>
+        </div>
+      </div>
+      <div class="phase">
+        <div class="num active">7</div>
+        <div class="phase-body">
+          <h4>Si no cierra</h4>
+          <p>No se aprieta más. Se fija día y hora concretos de seguimiento (máximo 2 días). Solo en el follow-up posterior, si el motivo fue el precio, se puede ofrecer la versión acelerada (ver sección Objeciones).</p>
+        </div>
+      </div>
+
+      <h3>Documentos y vídeos que se envían — y cuándo</h3>
+      <table>
+        <thead><tr><th>Material</th><th>Cuándo se envía</th><th>Enlace</th></tr></thead>
+        <tbody>
+          <tr><td class="label">Vídeo de preparación de la llamada</td><td>24–20h antes de la llamada, por el Closer</td><td><a href="https://www.youtube.com/watch?v=TpraQ-lgmjQ" target="_blank" rel="noopener">youtube.com/watch?v=TpraQ-lgmjQ</a></td></tr>
+          <tr><td class="label">Documento de onboarding (PDF)</td><td>Tras el cierre y el pago</td><td>"Bienvenida — Documento de onboarding", Edu Morán Entrenador</td></tr>
+          <tr><td class="label">Vídeo de bienvenida al programa</td><td>Al final del documento de onboarding</td><td><a href="https://youtu.be/zBe0mTWSWX4" target="_blank" rel="noopener">youtu.be/zBe0mTWSWX4</a></td></tr>
+        </tbody>
+      </table>
+      <p class="subnote">Ojo: son dos vídeos distintos — no confundirlos. El de preparación es previo a la llamada; el de bienvenida es posterior al pago.</p>
+
+      <h3>Checklist antes de colgar cada llamada</h3>
+      <ul class="checklist">
+        <li><span class="box"></span> Leí la respuesta del prospecto al Closer sobre en qué punto necesita más ayuda</li>
+        <li><span class="box"></span> Recorrí conexión, objetivos/problemas/creencias y panel visionario sin saltarme fases</li>
+        <li><span class="box"></span> Rompí las creencias limitantes con preguntas, no con argumentos</li>
+        <li><span class="box"></span> Expliqué el programa con desapego real, sin convencer</li>
+        <li><span class="box"></span> Di el precio completo del programa estándar y me callé</li>
+        <li><span class="box"></span> Resolví objeciones aislando si es precio, duda del producto o miedo</li>
+        <li><span class="box"></span> No prometí kilos exactos, fechas ni cura de condiciones médicas</li>
+        <li><span class="box"></span> Si cerró: confirmé forma de pago, envié enlace/datos y avisé para crear el grupo</li>
+        <li><span class="box"></span> Si no cerró: fijé día y hora concretos de seguimiento, sin insistir más</li>
+      </ul>
+    </section>
+
+    <footer>
+      <svg viewBox="0 0 100 100" fill="none"><polygon points="50,4 90,26 90,74 50,96 10,74 10,26" stroke="#8E763A" stroke-width="5" fill="none"/><path d="M33 50 L45 62 L69 36" stroke="#8E763A" stroke-width="7" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Closer Search — Informe interno de referencia para el equipo de Closers sobre el programa de Edu Morán.
+    </footer>
+  </main>
+</div>
+</body>
+</html>
