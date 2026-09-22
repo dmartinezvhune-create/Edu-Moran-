@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Programa Edu Morán · Informe de resultados</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --void:#060606; --void-soft:#0c0c0c; --void-card:#101010;
+    --line:#242220;
+    --gold:#C9A84C; --gold-soft:#DCC178; --gold-dim:#8E763A; --gold-glow:rgba(201,168,76,.08);
+    --ink:#EDE7D9; --ink-dim:#B4AC98; --ink-faint:#7D7666;
+    --teal:#5AB48C; --teal-glow:rgba(90,180,140,.08);
+    --red:#C96A4C; --red-glow:rgba(201,106,76,.08);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-padding-top:env(safe-area-inset-top,0px);}
+  body{
+    background:var(--void); color:var(--ink); font-family:'DM Sans',sans-serif;
+    font-size:15.5px; line-height:1.62; -webkit-font-smoothing:antialiased;
+    padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+  }
+  h1,h2,h3{font-family:'Cormorant Garamond',serif; font-weight:600; color:var(--ink); line-height:1.15;}
+  .cinzel{font-family:'Cinzel',serif;}
+  a{color:var(--gold);}
+  ::selection{background:var(--gold); color:#0a0a0a;}
+
+  /* ---------- Cover ---------- */
+  .cover{
+    min-height:92vh; display:flex; flex-direction:column; justify-content:space-between;
+    padding:56px 60px 46px; position:relative; overflow:hidden;
+    background:
+      radial-gradient(ellipse 900px 500px at 15% -10%, var(--gold-glow), transparent 60%),
+      var(--void);
+    border-bottom:1px solid var(--line);
+  }
+  .cover-top{display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:14px;}
+  .brandmark{display:flex; align-items:center; gap:13px;}
+  .brandmark svg{width:34px; height:34px; flex-shrink:0;}
+  .brand-name{font-family:'Cinzel',serif; font-weight:700; font-size:1.05rem; letter-spacing:.05em; color:#fff;}
+  .brand-name .search{color:var(--gold);}
+  .brand-sub{font-size:.68rem; color:var(--gold-dim); text-transform:uppercase; letter-spacing:.12em; margin-top:2px;}
+  .cover-meta{font-size:.75rem; color:var(--ink-faint); text-align:right; line-height:1.7;}
+  .cover-meta strong{color:var(--ink-dim); font-weight:600;}
+
+  .cover-body{margin-top:auto; padding-top:64px; max-width:760px;}
+  .eyebrow{font-family:'Cinzel',serif; font-size:.72rem; color:var(--gold-soft); letter-spacing:.16em; text-transform:uppercase; margin-bottom:18px;}
+  .cover-title{font-size:3.1rem; color:#fff; margin-bottom:22px;}
+  .cover-title em{font-style:normal; color:var(--gold);}
+  .cover-thesis{font-size:1.2rem; color:var(--ink-dim); font-family:'Cormorant Garamond',serif; font-style:italic; max-width:640px; line-height:1.5;}
+
+  .cover-strip{display:flex; gap:0; margin-top:52px; border-top:1px solid var(--line);}
+  .cover-strip .cell{flex:1; padding:20px 22px 0; border-right:1px solid var(--line);}
+  .cover-strip .cell:last-child{border-right:none;}
+  .cover-strip .n{font-family:'Cormorant Garamond',serif; font-size:1.85rem; color:var(--gold); display:block;}
+  .cover-strip .n.teal{color:var(--teal);}
+  .cover-strip .n.red{color:var(--red);}
+  .cover-strip .l{font-size:.68rem; color:var(--ink-faint); margin-top:4px; letter-spacing:.02em;}
+
+  /* ---------- Body ---------- */
+  main{max-width:760px; margin:0 auto; padding:0 60px;}
+  section{padding:64px 0; border-bottom:1px solid var(--line);}
+  section:last-of-type{border-bottom:none;}
+  .sec-head{display:flex; align-items:baseline; gap:16px; margin-bottom:28px;}
+  .sec-num{font-family:'Cormorant Garamond',serif; font-size:1.1rem; color:var(--gold-dim); font-style:italic; flex-shrink:0;}
+  h2.sec-title{font-size:1.9rem; color:#fff;}
+  h2.sec-title em{font-style:normal; color:var(--gold);}
+  p.sec-dek{color:var(--ink-dim); max-width:62ch; font-size:.98rem; margin-bottom:26px;}
+
+  h3.sub{font-family:'Cormorant Garamond',serif; font-size:1.25rem; color:var(--gold-soft); margin:32px 0 14px; font-weight:600;}
+  h3.sub:first-child{margin-top:0;}
+
+  /* stat blocks */
+  .stat-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line); border:1px solid var(--line); margin:8px 0 30px;}
+  .stat-grid .cell{background:var(--void-card); padding:22px 20px;}
+  .stat-grid .n{font-family:'Cormorant Garamond',serif; font-size:2rem; color:var(--gold); display:block;}
+  .stat-grid .n.teal{color:var(--teal);}
+  .stat-grid .n.red{color:var(--red);}
+  .stat-grid .l{font-size:.72rem; color:var(--ink-faint); margin-top:5px;}
+
+  /* tables */
+  table{width:100%; border-collapse:collapse; margin:18px 0 8px; font-size:.88rem;}
+  th{text-align:left; color:var(--gold-soft); font-family:'Cinzel',serif; font-weight:600; font-size:.66rem; text-transform:uppercase; letter-spacing:.05em; padding:9px 4px; border-bottom:1px solid var(--gold-dim);}
+  td{padding:11px 4px; border-bottom:1px solid var(--line); color:var(--ink-dim); vertical-align:top;}
+  tr:last-child td{border-bottom:none;}
+  td.num,th.num{text-align:right;}
+  .tfoot td{font-weight:600; color:var(--gold-soft); border-top:1px solid var(--gold-dim); border-bottom:none;}
+
+  /* bars */
+  .bar-row{display:flex; align-items:center; gap:14px; margin-bottom:14px;}
+  .bar-label{width:190px; font-size:.88rem; color:var(--ink-dim); flex-shrink:0;}
+  .bar-track{flex:1; background:var(--void-card); border:1px solid var(--line); height:26px; position:relative; overflow:hidden;}
+  .bar-fill{height:100%;}
+  .bar-fill.gold{background:linear-gradient(90deg, var(--gold-dim), var(--gold));}
+  .bar-fill.red{background:linear-gradient(90deg,#7a3d2e, var(--red));}
+  .bar-value{width:56px; text-align:right; font-family:'Cormorant Garamond',serif; font-size:1.05rem; color:var(--gold-soft); flex-shrink:0;}
+
+  /* callouts */
+  .note{border-left:2px solid var(--gold); padding:4px 0 4px 20px; margin:22px 0; font-size:.92rem; color:var(--ink-dim);}
+  .note strong{color:var(--gold-soft); font-weight:600;}
+  .note.teal{border-left-color:var(--teal);}
+  .note.teal strong{color:var(--teal);}
+  .note.red{border-left-color:var(--red);}
+  .note.red strong{color:var(--red);}
+
+  /* exec summary */
+  .exec{background:var(--void-card); border:1px solid var(--line); padding:36px 40px; margin:8px 0;}
+  .exec-item{display:flex; gap:18px; padding:16px 0; border-bottom:1px solid var(--line);}
+  .exec-item:last-child{border-bottom:none;}
+  .exec-mark{font-family:'Cormorant Garamond',serif; font-size:1.5rem; color:var(--gold); flex-shrink:0; font-style:italic; width:26px;}
+  .exec-item p{font-size:.95rem; color:var(--ink-dim);}
+  .exec-item strong{color:#fff; font-weight:600;}
+
+  /* recommendation cards */
+  .rec{background:var(--void-card); border:1px solid var(--line); border-left:2px solid var(--gold); padding:26px 30px; margin-bottom:18px;}
+  .rec h4{font-family:'Cormorant Garamond',serif; font-size:1.3rem; color:var(--gold-soft); margin-bottom:10px; font-weight:600;}
+  .rec p{font-size:.92rem; color:var(--ink-dim);}
+  .rec .why{margin-top:12px; padding-top:12px; border-top:1px solid var(--line); font-size:.82rem; color:var(--ink-faint);}
+  .rec .why strong{color:var(--ink-dim);}
+
+  /* closing */
+  .closing{padding:70px 60px 60px; text-align:center; background:var(--void-soft); border-top:1px solid var(--line);}
+  .closing .mark{width:34px; height:34px; margin:0 auto 20px;}
+  .closing h2{font-size:1.7rem; color:#fff; max-width:620px; margin:0 auto 14px;}
+  .closing h2 em{font-style:normal; color:var(--gold);}
+  .closing p{color:var(--ink-faint); font-size:.85rem; max-width:520px; margin:0 auto;}
+
+  @media (max-width:640px){
+    .cover{padding:36px 24px 32px;}
+    .cover-title{font-size:2.1rem;}
+    .cover-strip{flex-wrap:wrap;}
+    .cover-strip .cell{flex:1 1 50%; border-bottom:1px solid var(--line); padding-bottom:16px;}
+    main{padding:0 24px;}
+    section{padding:44px 0;}
+    .stat-grid{grid-template-columns:1fr 1fr;}
+    .exec{padding:24px 22px;}
+    .bar-label{width:110px; font-size:.78rem;}
+    .closing{padding:48px 24px;}
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ COVER ============ -->
+<div class="cover">
+  <div class="cover-top">
+    <div class="brandmark">
+      <svg viewBox="0 0 100 100" fill="none">
+        <polygon points="50,4 90,26 90,74 50,96 10,74 10,26" stroke="#C9A84C" stroke-width="3" fill="#060606"/>
+        <path d="M33 50 L45 62 L69 36" stroke="#C9A84C" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <div>
+        <div class="brand-name">CLOSER<span class="search"> SEARCH</span></div>
+        <div class="brand-sub">Selección de talento de cierre</div>
+      </div>
+    </div>
+    <div class="cover-meta">Preparado en exclusiva para <strong>Edu Morán</strong><br>Periodo analizado: 31 ago – 22 sep 2026</div>
+  </div>
+
+  <div class="cover-body">
+    <div class="eyebrow">Informe de resultados comerciales</div>
+    <h1 class="cover-title">Tres semanas de datos reales<br>del <em>Programa Edu Morán</em></h1>
+    <p class="cover-thesis">El equipo ya está vendiendo — y los datos muestran con precisión dónde se gana el dinero que ya ha entrado, y dónde se está quedando el que todavía no.</p>
+  </div>
+
+  <div class="cover-strip">
+    <div class="cell"><span class="n">39</span><span class="l">Leads gestionados</span></div>
+    <div class="cell"><span class="n teal">4.871€</span><span class="l">Ya confirmados por banco</span></div>
+    <div class="cell"><span class="n">2.167€</span><span class="l">En camino de cobrarse</span></div>
+    <div class="cell"><span class="n red">31%</span><span class="l">Citas que se pierden sin llegar a hablar</span></div>
+  </div>
+</div>
+
+<main>
+
+<!-- ============ 1. RESUMEN EJECUTIVO ============ -->
+<section>
+  <div class="sec-head"><span class="sec-num">01</span><h2 class="sec-title">Resumen <em>ejecutivo</em></h2></div>
+  <p class="sec-dek">Cuatro ideas resumen todo lo que hay detrás de este informe. El resto del documento las desarrolla con el detalle completo.</p>
+
+  <div class="exec">
+    <div class="exec-item">
+      <div class="exec-mark">1</div>
+      <p><strong>El programa vende de verdad.</strong> 4.871€ ya están confirmados por comprobante bancario en las tres primeras semanas, con otros 2.167€ ya comprometidos por clientas que están terminando de pagar.</p>
+    </div>
+    <div class="exec-item">
+      <div class="exec-mark">2</div>
+      <p><strong>La conversación de venta, cuando ocurre, funciona.</strong> Más de la mitad de las llamadas que no cierran sí llegan hasta hablar del precio — la presentación del programa despierta interés real.</p>
+    </div>
+    <div class="exec-item">
+      <div class="exec-mark">3</div>
+      <p><strong>El mayor problema ocurre antes de descolgar el teléfono.</strong> Una de cada tres citas agendadas se pierde porque la clienta cancela, no se presenta, o desaparece — no porque diga que no al programa.</p>
+    </div>
+    <div class="exec-item">
+      <div class="exec-mark">4</div>
+      <p><strong>Cuando sí hay objeción, casi siempre es de presupuesto.</strong> Y en varios casos la propia clienta pide una cuota más baja que la actual — una pista clara de por dónde seguir.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 2. RESULTADO FINANCIERO ============ -->
+<section>
+  <div class="sec-head"><span class="sec-num">02</span><h2 class="sec-title">Resultado <em>financiero</em></h2></div>
+  <p class="sec-dek">Toda cifra de este apartado está contrastada con comprobante bancario real, no solo con lo que cada closer anotó en su ficha.</p>
+
+  <div class="stat-grid">
+    <div class="cell"><span class="n teal">4.871€</span><span class="l">Confirmado por banco</span></div>
+    <div class="cell"><span class="n">2.167€</span><span class="l">Pendiente de cobro</span></div>
+    <div class="cell"><span class="n">36%</span><span class="l">Tasa de cierre bruta</span></div>
+  </div>
+
+  <h3 class="sub">Pagos confirmados por comprobante bancario</h3>
+  <table>
+    <tr><th>Lead</th><th class="num">Importe</th><th>Fecha</th></tr>
+    <tr><td>Ana Isabel Iriondo (Anabel)</td><td class="num">797€</td><td>2 sept</td></tr>
+    <tr><td>Victoria Esteve</td><td class="num">797€</td><td>2 sept</td></tr>
+    <tr><td>Amparo Quiles</td><td class="num">1.397€</td><td>4 sept</td></tr>
+    <tr><td>Inmaculada Bermúdez Castro</td><td class="num">1.397€</td><td>8 sept</td></tr>
+    <tr><td>Amaya Gómez Calvo <span style="color:var(--ink-faint);">— 1ª de 3 cuotas Klarna</span></td><td class="num">483,33€</td><td>3 sept</td></tr>
+    <tr class="tfoot"><td>Total confirmado</td><td class="num">4.871,33€</td><td></td></tr>
+  </table>
+
+  <h3 class="sub">Previsión de cobro — lo que ya está comprometido</h3>
+  <table>
+    <tr><th>Origen</th><th class="num">Importe</th><th>Cómo se cobra</th><th>Cuándo</th></tr>
+    <tr><td>Segundo pago pendiente</td><td class="num">600€</td><td>Transferencia</td><td>16 de noviembre</td></tr>
+    <tr><td>Segundo pago pendiente</td><td class="num">600€</td><td>Transferencia</td><td>Semana 12</td></tr>
+    <tr><td>2ª y 3ª cuota — Amaya Gómez Calvo</td><td class="num">966,67€</td><td>Automático, Klarna</td><td>Sin fecha exacta</td></tr>
+    <tr class="tfoot"><td>Total pendiente</td><td class="num">2.166,67€</td><td></td><td></td></tr>
+  </table>
+  <div class="note teal"><strong>Sobre el pago de Klarna:</strong> que el cobro sea automático no significa que el dinero ya esté ingresado — sigue siendo facturación real en camino, solo que no requiere ninguna gestión manual.</div>
+</section>
+
+<!-- ============ 3. LAS 2 CAUSAS ============ -->
+<section>
+  <div class="sec-head"><span class="sec-num">03</span><h2 class="sec-title">Por qué se pierde <em>un lead</em></h2></div>
+  <p class="sec-dek">De los 39 leads del periodo, dos causas concretas explican más de la mitad de todo lo que no se ha cerrado. No es el guion de ventas — es lo que ocurre antes y después de él.</p>
+
+  <h3 class="sub">Causa 1 · La cita se pierde antes de empezar</h3>
+  <div class="stat-grid" style="grid-template-columns:1fr;">
+    <div class="cell" style="text-align:center;"><span class="n red">12 de 39 leads</span><span class="l">31% de todo el periodo — la clienta cancela, no se presenta, o desaparece</span></div>
+  </div>
+  <p style="color:var(--ink-dim); font-size:.92rem;">En varios de estos casos la clienta ya había recibido el enlace de pago y dejó de responder justo después — lo que sugiere que el interés era real hasta el último paso.</p>
+
+  <h3 class="sub">Causa 2 · Objeción de presupuesto</h3>
+  <table>
+    <tr><th>Objeción</th><th class="num">Leads</th><th class="num">% de las no cerradas</th></tr>
+    <tr><td>Ninguna objeción — canceló o no se presentó</td><td class="num">11</td><td class="num">44%</td></tr>
+    <tr><td>Tiene que pensarlo / consultarlo con su pareja</td><td class="num">7</td><td class="num">28%</td></tr>
+    <tr><td>No tiene el dinero disponible</td><td class="num">6</td><td class="num">24%</td></tr>
+    <tr><td>Le parece caro</td><td class="num">5</td><td class="num">20%</td></tr>
+  </table>
+  <div class="note"><strong>El dato que más llama la atención:</strong> varias clientas no rechazan el programa — piden explícitamente una cuota mensual por debajo de la actual. El problema no siempre es el precio total, es el encaje con su presupuesto mes a mes.</div>
+
+  <h3 class="sub">Dónde se detiene la llamada cuando no cierra</h3>
+  <div class="bar-row"><div class="bar-label">Precio y acceso</div><div class="bar-track"><div class="bar-fill gold" style="width:56%;"></div></div><div class="bar-value">56%</div></div>
+  <div class="bar-row"><div class="bar-label">Panel visionario</div><div class="bar-track"><div class="bar-fill gold" style="width:16%;"></div></div><div class="bar-value">16%</div></div>
+  <div class="bar-row"><div class="bar-label">Explicación del programa</div><div class="bar-track"><div class="bar-fill gold" style="width:12%;"></div></div><div class="bar-value">12%</div></div>
+  <div class="bar-row"><div class="bar-label">Objetivos</div><div class="bar-track"><div class="bar-fill gold" style="width:8%;"></div></div><div class="bar-value">8%</div></div>
+  <div class="note">Más de la mitad de las llamadas que no cierran sí llegan a hablar de precio — el descubrimiento y la presentación del programa están cumpliendo su función.</div>
+</section>
+
+<!-- ============ 4. OTROS DATOS ============ -->
+<section>
+  <div class="sec-head"><span class="sec-num">04</span><h2 class="sec-title">Otros datos <em>observados</em></h2></div>
+
+  <h3 class="sub">Termómetro de confianza (1-10)</h3>
+  <p style="color:var(--ink-dim); font-size:.92rem;">Casi todas las llamadas —cierren o no— registran una confianza de 8 a 10. Con estos datos, este indicador todavía no distingue quién va a cerrar y quién no.</p>
+
+  <h3 class="sub">Testimonios usados en la llamada</h3>
+  <table>
+    <tr><th>Testimonio</th><th class="num">Veces usado</th></tr>
+    <tr><td>Olivia</td><td class="num">6</td></tr>
+    <tr><td>María José</td><td class="num">3</td></tr>
+    <tr><td>Mari Cruz</td><td class="num">3</td></tr>
+    <tr><td>Pilar</td><td class="num">2</td></tr>
+  </table>
+  <p style="color:var(--ink-dim); font-size:.92rem;">Con la muestra actual no hay datos suficientes para saber qué testimonio ayuda más a cerrar — las llamadas que cerraron lo hicieron, en general, sin necesitar llegar a usar uno.</p>
+</section>
+
+<!-- ============ 5. DIAGNÓSTICO ============ -->
+<section>
+  <div class="sec-head"><span class="sec-num">05</span><h2 class="sec-title">Diagnóstico <em>general</em></h2></div>
+
+  <p style="font-size:1.05rem; color:var(--ink-dim); font-family:'Cormorant Garamond',serif; line-height:1.6; margin-bottom:20px;">El programa funciona. La demanda existe, la conversación convence cuando se produce, y el dinero ya está entrando. Lo que separa el resultado actual de uno notablemente mejor no es el producto ni el guion — son dos fugas concretas y medibles: <strong style="color:var(--gold-soft); font-style:normal;">una de cada tres citas se pierde antes de hablar</strong>, y <strong style="color:var(--gold-soft); font-style:normal;">la cuota mensual no siempre encaja con el presupuesto real de la clienta.</strong></p>
+</section>
+
+<!-- ============ 6. RECOMENDACIÓN ============ -->
+<section>
+  <div class="sec-head"><span class="sec-num">06</span><h2 class="sec-title">Recomendación</h2></div>
+  <p class="sec-dek">Dos acciones, una por cada causa. Juntas afectan al 54% de todos los leads del periodo — más que cualquier otro ajuste posible al guion de ventas.</p>
+
+  <div class="rec">
+    <h4>Confirmar la cita con un compromiso activo</h4>
+    <p>Sustituir el recordatorio pasivo por una confirmación que exija una respuesta ("responde SÍ para tu hueco") un par de horas antes de la llamada. Quien no confirma, libera el hueco a tiempo de ofrecerlo a otra persona en vez de perderlo en el momento de la llamada.</p>
+    <div class="why"><strong>Por qué:</strong> esto ataca directamente el 31% de citas que hoy se pierden sin ninguna conversación.</div>
+  </div>
+
+  <div class="rec">
+    <h4>Adelantar la opción de cuota flexible</h4>
+    <p>Cuando la clienta ya muestra señales de presupuesto ajustado antes de llegar al precio, presentar primero la opción mensual en vez de anclar con el importe completo. Varias clientas de este periodo pidieron explícitamente una cuota más baja — la demanda ya está diciendo qué necesita.</p>
+    <div class="why"><strong>Por qué:</strong> la objeción de dinero es la segunda causa de pérdida más frecuente, y en varios casos no es un "no" al programa, es un "no" a la forma de pago.</div>
+  </div>
+</section>
+
+</main>
+
+<div class="closing">
+  <svg class="mark" viewBox="0 0 100 100" fill="none"><polygon points="50,4 90,26 90,74 50,96 10,74 10,26" stroke="#C9A84C" stroke-width="4" fill="none"/><path d="M33 50 L45 62 L69 36" stroke="#C9A84C" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  <h2>Los datos dicen que el programa <em>ya funciona</em> — y exactamente dónde ganar más</h2>
+  <p>Closer Search · Informe preparado en exclusiva para Edu Morán · Programa Edu Morán</p>
+</div>
+
+</body>
+</html>
